@@ -101,10 +101,6 @@ jobs:
       uploadToSSC: false
       buildTool: 'none'
       includeNodeModules: true
-      translateApexProject: true
-      translateSQLProject: true
-      sqlType: 'PL/SQL'
-      filter: '*.sql'
       email: 'vdiduo@gmail.com'
       quiet: false
  
