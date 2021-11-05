@@ -94,19 +94,19 @@ jobs:
   #     block: true
   #     overwrite: true
 
-- task: FortifyScanCentralSAST@7
-  inputs:
-    scanCentralClientToken: '$(ScanCentral.ClientToken)'
-    sscCiToken: '$(ScanCentral.SscCiToken)'
-    uploadToSSC: false
-    buildTool: 'none'
-    includeNodeModules: true
-    translateApexProject: true
-    translateSQLProject: true
-    sqlType: 'PL/SQL'
-    filter: '*.sql'
-    email: 'vdiduo@gmail.com'
-    quiet: false
+  - task: FortifyScanCentralSAST@7
+    inputs:
+      scanCentralClientToken: '$(ScanCentral.ClientToken)'
+      sscCiToken: '$(ScanCentral.SscCiToken)'
+      uploadToSSC: false
+      buildTool: 'none'
+      includeNodeModules: true
+      translateApexProject: true
+      translateSQLProject: true
+      sqlType: 'PL/SQL'
+      filter: '*.sql'
+      email: 'vdiduo@gmail.com'
+      quiet: false
  
  #- task: CopyFiles@2
   #   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
