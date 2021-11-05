@@ -29,8 +29,8 @@ parameters:
   default: vdiduo@gmail.com
 - name: AgentPool
   default: SpringAgent
-- name: 
-  default:
+# - name: 
+#   default:
 
   # MavenPomFile: 'pom.xml'    #default value can be overridden when using template
   # NotificationMail: 'bijay.shrestha.contractor@pepsico.com' 
