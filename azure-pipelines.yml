@@ -1,0 +1,123 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+# pool:
+#   vmImage: ubuntu-latest
+
+# steps:
+# - script: echo Hello, world!
+#   displayName: 'Run a one-line script'
+
+# - script: |
+#     echo Add other tasks to build, test, and deploy your project.
+#     echo See https://aka.ms/yaml
+#   displayName: 'Run a multi-line script'
+
+# trigger:
+# - main
+
+
+parameters:
+- name: MavenPomFile
+  default: initial/pom.xml
+- name: NotificationMail
+  default: vdiduo@gmail.com
+- name: AgentPool
+  default: SpringAgent
+- name: 
+  default:
+
+  # MavenPomFile: 'pom.xml'    #default value can be overridden when using template
+  # NotificationMail: 'bijay.shrestha.contractor@pepsico.com' 
+  # AgentPool: 'ubuntu-latest'
+
+
+  # AppName: 'diagnostic.mypepsico.com'
+  # AppVersion: '3.3'
+  # SCCUrl: 'https://csc.pepasm.net/scancentral-ctrl'
+  # SSCUrl: 'https://ssc.pepasm.net/ssc'
+
+
+jobs:
+- job: MavenBuild
+  displayName: Maven Build Job
+  pool:
+    name: ${{parameters.AgentPool}}
+  steps:
+  - task: Maven@3
+    inputs:
+      mavenPomFile: '${{parameters.MavenPomFile}}'
+      publishJUnitResults: true
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      testRunTitle: 'UTest'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.8'
+      mavenVersionOption: 'Default'
+      mavenAuthenticateFeed: false
+      effectivePomSkip: false
+      sonarQubeRunAnalysis: true
+      isJacocoCoverageReportXML: true
+      sqMavenPluginVersionChoice: 'latest'
+      checkStyleRunAnalysis: true
+      pmdRunAnalysis: true
+      findBugsRunAnalysis: true
+
+  - task: SonarQubeAnalyze@4
+    displayName: Run Code Analysis
+
+  - task: SonarQubePublish@4
+    displayName: Publish Quality Gate Result
+    # inputs:
+    # pollingTimeoutSec: '300'
+
+  # - task: FortifyScanCentralSAST@7
+  #   inputs:
+  #     scanCentralCtrlUrl: '${{parameters.SCCUrl}}'
+  #     scanCentralClientToken: '$(ScanCentral.ClientToken)'
+  #     sscUrl: '${{parameters.SCCUrl}}'
+  #     sscCiToken: '$(ScanCentral.SscCiToken)'
+  #     uploadToSSC: true
+  #     applicationName: '${{parameters.AppName}}'
+  #     applicationVersion: '${{parameters.AppVersion}}'
+  #     buildTool: 'none'
+  #     includeNodeModules: false
+  #     translateApexProject: true
+  #     translateSQLProject: true
+  #     sqlType: 'PL/SQL'
+  #     filter: '*.jsp'
+  #     email: '${{parameters.NotificationMail}}'
+  #     block: true
+  #     overwrite: true
+
+- task: FortifyScanCentralSAST@7
+  inputs:
+    scanCentralClientToken: '$(ScanCentral.ClientToken)'
+    sscCiToken: '$(ScanCentral.SscCiToken)'
+    uploadToSSC: false
+    buildTool: 'none'
+    includeNodeModules: true
+    translateApexProject: true
+    translateSQLProject: true
+    sqlType: 'PL/SQL'
+    filter: '*.sql'
+    email: 'vdiduo@gmail.com'
+    quiet: false
+ 
+ #- task: CopyFiles@2
+  #   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+  #   condition: succeededOrFailed()
+  #   inputs:
+  #     SourceFolder: $(system.defaultworkingdirectory)
+  #     Contents: '**/*.jar'
+  #     TargetFolder: $(build.artifactstagingdirectory)
+ #- task: PublishBuildArtifacts@1
+  #   displayName: 'Publish Artifact: drop'
+  #   condition: succeededOrFailed()
+  #   inputs:
+  #     PathtoPublish: $(build.artifactstagingdirectory)
+
