@@ -28,7 +28,7 @@ parameters:
 - name: NotificationMail
   default: vdiduo@gmail.com
 - name: AgentPool
-  default: SpringAgent
+  default: ubuntu-latest
 # - name: 
 #   default:
 
@@ -47,7 +47,7 @@ jobs:
 - job: MavenBuild
   displayName: Maven Build Job
   pool:
-    name: ${{parameters.AgentPool}}
+    vmImage: ${{parameters.AgentPool}}
   steps:
   - task: Maven@3
     inputs:
