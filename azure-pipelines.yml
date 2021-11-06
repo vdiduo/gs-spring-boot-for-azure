@@ -47,7 +47,8 @@ jobs:
 - job: MavenBuild
   displayName: Maven Build Job
   pool:
-    vmImage: ${{parameters.AgentPool}}
+   name: Test
+    # vmImage: ${{parameters.AgentPool}}
   steps:
   - task: Maven@3
     inputs:
