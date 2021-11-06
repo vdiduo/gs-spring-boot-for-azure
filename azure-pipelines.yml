@@ -47,7 +47,7 @@ jobs:
 - job: MavenBuild
   displayName: Maven Build Job
   pool:
-   name: Test
+   name: GsAgent
     # vmImage: ${{parameters.AgentPool}}
   steps:
   - task: Maven@3
